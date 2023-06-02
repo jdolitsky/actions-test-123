@@ -3,14 +3,26 @@ on:
     branches:
       - main
 jobs:
-  example_matrix:
+  generate-matrix:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [10, 12, 14]
+    outputs:
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
     steps:
-      - uses: jdolitsky/actions/matrix-extra-inputs@matrix-extra-inputs
+      - id: generate-matrix
+        run: |
+          matrix='{"include":[{"version": 10},{"version": 12},{"version": 14}]}'
+          echo "matrix=${matrix}" >> $GITHUB_OUTPUT
+  example:
+    runs-on: ubuntu-latest
+    needs: [generate-matrix]
+    strategy:
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+    steps:
+      - id: extra-inputs
+        uses: jdolitsky/actions/matrix-extra-inputs@matrix-extra-inputs
         with:
           matrix-json: ${{ toJSON(matrix) }}
         env:
           EXTRA_INPUT_CHECK_IT_OUT: hello
+      - uses: jdolitsky/actions/matrix-check-inputs@matrix-extra-inputs
+        with: ${{ fromJSON(steps.extra-inputs.ouputs.matrix-json) }}
