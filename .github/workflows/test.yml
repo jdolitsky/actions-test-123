@@ -24,5 +24,10 @@ jobs:
           matrix-json: ${{ toJSON(matrix) }}
         env:
           EXTRA_INPUT_CHECK_IT_OUT: hello
-      - uses: jdolitsky/actions/matrix-check-inputs@matrix-extra-inputs
-        with: ${{ fromJSON(steps.extra-inputs.outputs.matrix-json) }}
+      - run: |
+          echo '${{ steps.extra-inputs.outputs.matrix-json }}'
+      #- uses: jdolitsky/actions/matrix-check-inputs@matrix-extra-inputs
+      #  with: ${{ fromJSON(steps.extra-inputs.outputs.matrix-json) }}
+
+      #- uses: jdolitsky/actions/matrix-check-inputs@matrix-extra-inputs
+      #  with: ${{ fromJSON(steps.extra-inputs.outputs.matrix-json) }}
