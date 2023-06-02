@@ -9,5 +9,8 @@ jobs:
       matrix:
         version: [10, 12, 14]
     steps:
-      - run: |
-          echo '${{ toJSON(matrix) }}' | jq
+      - uses: jdolitsky/actions/matrix-extra-inputs@matrix-extra-inputs
+        with:
+          matrix-json: ${{ toJSON(matrix) }}
+        env:
+          EXTRA_INPUT_CHECK_IT_OUT: hello
