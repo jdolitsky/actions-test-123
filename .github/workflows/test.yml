@@ -18,17 +18,11 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
-      - id: x
+      - id: extra-inputs
         uses: jdolitsky/actions/matrix-extra-inputs@matrix-extra-inputs
         with:
           matrix-json: ${{ toJSON(matrix) }}
         env:
           EXTRA_INPUT_CHECK_IT_OUT: hello
-      - run: |
-          set -x
-          echo '${{ steps.x.outputs.abc }}'
-      #- uses: jdolitsky/actions/matrix-check-inputs@matrix-extra-inputs
-      #  with: ${{ fromJSON(steps.extra-inputs.outputs.matrix-json) }}
-
-      #- uses: jdolitsky/actions/matrix-check-inputs@matrix-extra-inputs
-      #  with: ${{ fromJSON(steps.extra-inputs.outputs.matrix-json) }}
+      - uses: jdolitsky/actions/matrix-check-inputs@matrix-extra-inputs
+        with: ${{ fromJSON(steps.extra-inputs.outputs.matrix-json) }}
