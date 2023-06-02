@@ -25,4 +25,4 @@ jobs:
         env:
           EXTRA_INPUT_CHECK_IT_OUT: hello
       - uses: jdolitsky/actions/matrix-check-inputs@matrix-extra-inputs
-        with: ${{ fromJSON(steps.extra-inputs.ouputs.matrix-json) }}
+        with: ${{ fromJSON(steps.extra-inputs.outputs.matrix-json) }}
